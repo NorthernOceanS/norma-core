@@ -1,0 +1,24 @@
+{
+  "name": "norma-core",
+  "version": "0.1.0",
+  "description": "the core of NormaConstructor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/NorthernOceanS/norma-core.git"
+  },
+  "keywords": [
+    "minecraft",
+    "bedrock",
+    "addon"
+  ],
+  "author": "NorthernOceanS",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/NorthernOceanS/norma-core/issues"
+  },
+  "homepage": "https://github.com/NorthernOceanS/norma-core"
+}

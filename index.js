@@ -2,23 +2,17 @@
 ** This file is licensed in BSD 2 Clause.
 */
 
-export {
-    Coordinate,
-    Position,
-    BlockType,
-    Block,
-    Direction,
-    Usage,
-    Description,
-    Generator,
-    BuildInstruction
-} from "./constructor.js";
+let constructors = require("./constructor.js");
 
-export const emptyPlatform = {
+Object.assign(exports, constructors);
+
+const emptyPlatform = {
     use() { /* no-op */ }
 }
 
-export class System {
+exports.emptyPlatform = emptyPlatform;
+
+class System {
     constructor() {
         this._platform = null;
         this._generators = [];
@@ -88,7 +82,9 @@ users: system: ${[...this._users.entries()]}`);
     }
 }
 
-export class UserSystem {
+exports.System = System;
+
+class UserSystem {
     constructor(system,
  id) {
         this._system = system;
@@ -238,7 +234,9 @@ export class UserSystem {
     }
 }
 
-export function canonicalGeneratorFactory({
+exports.UserSystem = UserSystem;
+
+function canonicalGeneratorFactory({
     description,
 
     criteria: {
@@ -347,3 +345,5 @@ export function canonicalGeneratorFactory({
         onExit(e) { /* no-op */ },
     }
 }
+
+exports.canonicalGeneratorFactory = canonicalGeneratorFactory;

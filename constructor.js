@@ -84,4 +84,5 @@ class BuildInstruction{
         this.data=data
     }
 }
-export { Coordinate, Position, BlockType, Block, Direction, Usage, Description, Generator,BuildInstruction }
+
+module.exports = { Coordinate, Position, BlockType, Block, Direction, Usage, Description, Generator,BuildInstruction };

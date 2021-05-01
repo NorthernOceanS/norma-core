@@ -333,7 +333,7 @@ function canonicalGeneratorFactory({
         onAddPosition: onAdd("position", "positions"),
         onAddBlockType: onAdd("blockType", "blockTypes"),
         onAddDirection: onAdd("direction", "directions"),
-        onRemovePoistion: onRemove("position", "positions"),
+        onRemovePosition: onRemove("position", "positions"),
         onRemoveBlockType: onRemove("blockType", "blockTypes"),
         onRemoveDirection: onRemove("direction", "directions"),
         isValidParameter: defaultIsValidParameter,

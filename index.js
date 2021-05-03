@@ -29,8 +29,7 @@ class System {
         this._platform = platform;
     }
     createUser(id) {
-        return new UserSystem(this,
- id);
+        return new UserSystem(this, id);
     }
     hasUser(id) {
         return this._users.has(id);
@@ -52,12 +51,9 @@ users: system: ${[...this._users.entries()]}`);
 
     ** please don't rely on these functions.
     */
-    addUser(id,
- user) {
-        this._users.set(id,
- user);
-        this._ids.set(user,
- id);
+    addUser(id, user) {
+        this._users.set(id, user);
+        this._ids.set(user, id);
     }
     removeUser(user) {
         let id = this._ids.get(user);
@@ -85,12 +81,10 @@ users: system: ${[...this._users.entries()]}`);
 exports.System = System;
 
 class UserSystem {
-    constructor(system,
- id) {
+    constructor(system, id) {
         this._system = system;
         this.session = {};
-        this._system.addUser(id,
- this);
+        this._system.addUser(id, this);
         this._generators = system.getGenerators();
         this._generatorStates = Array(this._generators.length);
         for(let i = 0; i < this._generatorStates.length; ++i) {
@@ -120,7 +114,7 @@ class UserSystem {
             position,
 
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     addBlockType(blockType) {
         let gen = this._generators[this._generatorIndex];
@@ -129,7 +123,7 @@ class UserSystem {
             blockType,
 
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     addDirection(direction) {
         let gen = this._generators[this._generatorIndex];
@@ -138,7 +132,7 @@ class UserSystem {
             direction,
 
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     removePosition(index) {
         let gen = this._generators[this._generatorIndex];
@@ -147,7 +141,7 @@ class UserSystem {
             index,
 
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     removeBlockType(index) {
         let gen = this._generators[this._generatorIndex];
@@ -156,7 +150,7 @@ class UserSystem {
             index,
 
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     useItem(data) {
         let gen = this._generators[this._generatorIndex];
@@ -165,7 +159,7 @@ class UserSystem {
             data,
 
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     isValidParameter() {
         let gen = this._generators[this._generatorIndex];
@@ -173,14 +167,14 @@ class UserSystem {
         return gen.isValidParameter({
             state: this._generatorStates[this._generatorIndex],
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     generate() {
         let gen = this._generators[this._generatorIndex];
         return gen.generate({
             state: this._generatorStates[this._generatorIndex],
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     removeDirection(index) {
         let gen = this._generators[this._generatorIndex];
@@ -189,7 +183,7 @@ class UserSystem {
             index,
 
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     UIHandler(data) {
         let gen = this._generators[this._generatorIndex];
@@ -198,7 +192,7 @@ class UserSystem {
 
             state: this._generatorStates[this._generatorIndex],
             runtime: this._createRuntime(gen),
-        })
+        });
     }
     exit() {
         for(let i = 0; i < this._generatorStates.length; ++i) {
@@ -230,7 +224,7 @@ class UserSystem {
 
             plugin,
 
-        })
+        });
     }
 }
 
@@ -249,19 +243,16 @@ function canonicalGeneratorFactory({
     option,
 
     method: {
-        generate,
- UIHandler
+        generate, UIHandler
     }
 }) {
-    function onAdd(type,
- arrayname) {
+    function onAdd(type, arrayname) {
         return function (e) {
-            let { state,
- runtime } = e
+            let { state, runtime } = e;
             let { logger } = runtime;
-            let data = e[type]
-            let array = state[arrayname]
-            let indexOfVacancy = array.indexOf(undefined)
+            let data = e[type];
+            let array = state[arrayname];
+            let indexOfVacancy = array.indexOf(undefined);
             if (indexOfVacancy !== -1) {
                 array[indexOfVacancy] = data
                 logger && logger.log("info", `New ${type} accepted.`);
@@ -270,12 +261,9 @@ function canonicalGeneratorFactory({
             }
         };
     }
-    function onRemove(type,
- arrayname) {
+    function onRemove(type, arrayname) {
         return function (e) {
-            let { state,
- index,
- runtime } = e
+            let { state, index, runtime } = e;
             let { logger } = runtime;
             let array = state[arrayname];
             if (index === undefined) {
@@ -284,11 +272,10 @@ function canonicalGeneratorFactory({
                      index--);
             }
             if (index >= 0) array[index] = undefined;
-            logger && logger.logObject("info", array)
+            logger && logger.logObject("info", array);
         };
     }
-    function createGenerate(generate,
- postGenerate) {
+    function createGenerate(generate, postGenerate) {
         return async function (e) {
             let result = await generate(e);
             await postGenerate(e);
@@ -302,15 +289,14 @@ function canonicalGeneratorFactory({
         state.directions.fill(undefined);
     }
     function defaultIsValidParameter(e) {
-        let { state,
- runtime } = e;
+        let { state, runtime } = e;
         let result = "";
         if (state.blockTypes.indexOf(undefined) != -1)
-            result += "Too few blockTypes!Refusing to execute.\n"
+            result += "Too few blockTypes!Refusing to execute.\n";
         if (state.positions.indexOf(undefined) != -1)
-            result += "Too few positions!Refusing to execute.\n"
+            result += "Too few positions!Refusing to execute.\n";
         if (state.directions.indexOf(undefined) != -1)
-            result += "Too few directions!Refusing to execute."
+            result += "Too few directions!Refusing to execute.";
         if (result == "") return true;
         let { logger } = runtime;
         if(logger) logger.log("error", result);
@@ -322,13 +308,13 @@ function canonicalGeneratorFactory({
         ui: description.usage.optionUsage,
 
         onInit(e) {
-            let {state} = e
+            let {state} = e;
             for(let p in option) {
-                state[p] = option[p]
+                state[p] = option[p];
             }
-            state.positions = (new Array(positionArrayLength)).fill(undefined)
-            state.blockTypes = (new Array(blockTypeArrayLength)).fill(undefined)
-            state.directions = (new Array(directionArrayLength)).fill(undefined)
+            state.positions = new Array(positionArrayLength).fill(undefined);
+            state.blockTypes = new Array(blockTypeArrayLength).fill(undefined);
+            state.directions = new Array(directionArrayLength).fill(undefined);
         },
         onAddPosition: onAdd("position", "positions"),
         onAddBlockType: onAdd("blockType", "blockTypes"),
@@ -338,8 +324,7 @@ function canonicalGeneratorFactory({
         onRemoveDirection: onRemove("direction", "directions"),
         isValidParameter: defaultIsValidParameter,
 
-        generate: createGenerate(generate,
- defaultPostGenerate),
+        generate: createGenerate(generate, defaultPostGenerate),
         UIHandler,
 
         onExit(e) { /* no-op */ },

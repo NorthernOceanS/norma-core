@@ -61,7 +61,7 @@ class Generator {
 
         this.positionArray = positionArray;
         this.blockTypeArray = blockTypeArray;
-        this.directionArray = directionArray
+        this.directionArray = directionArray;
         this.option = option;
 
         this.addPosition = addPosition;
@@ -69,19 +69,19 @@ class Generator {
         this.addDirection = addDirection;
         this.removePosition = removePosition;
         this.removeBlockType = removeBlockType;
-        this.removeDirection = removeDirection
+        this.removeDirection = removeDirection;
 
         this.validateParameter = validateParameter;
         this.generate = generate;
         this.postGenerate = postGenerate;
-        this.UIHandler = UIHandler
+        this.UIHandler = UIHandler;
     }
 }
 
 class BuildInstruction{
     constructor(type,data){
-        this.type=type
-        this.data=data
+        this.type = type;
+        this.data = data;
     }
 }
 

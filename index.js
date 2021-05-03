@@ -309,9 +309,7 @@ function canonicalGeneratorFactory({
 
         onInit(e) {
             let {state} = e;
-            for(let p in option) {
-                state[p] = option[p];
-            }
+            Object.assign(state, JSON.parse(JSON.stringify(option)));
             state.positions = new Array(positionArrayLength).fill(undefined);
             state.blockTypes = new Array(blockTypeArrayLength).fill(undefined);
             state.directions = new Array(directionArrayLength).fill(undefined);

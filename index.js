@@ -18,6 +18,7 @@ class System {
         this._generators = [];
         this._users = new Map();
         this._ids = new Map();
+        this._auths = new Map();
     }
     /*
     ** Following functions are used by platform.
@@ -65,6 +66,21 @@ users: system: ${[...this._users.entries()]}`);
     }
     createRuntime(auth) {
         let runtime = this._platform.createRuntime(this._getID(auth.user));
+        runtime = this._mixinSystemRuntime(runtime);
+        runtime = this._hijack(runtime, auth);
+        return runtime;
+    }
+    _createSubRuntime(runtime) {
+        let auth = this._auths.get(runtime);
+        let newAuth = Object.assign({}, auth);
+        return this.createRuntime(newAuth);
+    }
+    _mixinSystemRuntime(runtime) {
+        runtime.createSubRuntime = this._createSubRuntime.bind(this, runtime);
+        return runtime;
+    }
+    _hijack(runtime, auth) {
+        this._auths.set(runtime, auth);
         return runtime;
     }
     /*

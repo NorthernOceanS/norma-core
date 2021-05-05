@@ -112,7 +112,7 @@ users: system: ${[...this._users.entries()]}`);
             throw new ReferenceError(`There is no program called ${name}.`);
         }
         return program({
-            runtime: runtime.createSubRuntime();
+            runtime: runtime.createSubRuntime(),
             input,
             args
         });

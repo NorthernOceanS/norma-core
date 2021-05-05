@@ -19,6 +19,8 @@ class System {
         this._users = new Map();
         this._ids = new Map();
         this._auths = new Map();
+        this._nativeNOSPrograms = new Map();
+        this._namespaces = new Map();
     }
     /*
     ** Following functions are used by platform.
@@ -77,11 +79,46 @@ users: system: ${[...this._users.entries()]}`);
     }
     _mixinSystemRuntime(runtime) {
         runtime.createSubRuntime = this._createSubRuntime.bind(this, runtime);
+        runtime.execl = this._execl.bind(this, runtime);
+        runtime.exev = this._execv.bind(this, runtime);
         return runtime;
     }
     _hijack(runtime, auth) {
         this._auths.set(runtime, auth);
         return runtime;
+    }
+    _findNOSProgram(name) {
+        let nativProgram = this._nativeNOSPrograms.get(name);
+        if(nativProgram !== undefined) {
+            return nativProgram;
+        }
+        let names = name.split(".");
+        let namespaceName = names.shift();
+        let namespace = this._namespaces.get(namespaceName);
+        for (name in names) {
+            if(namespace === undefined) {
+                break;
+            }
+            namespace = namespace[name];
+        }
+        if(namespace !== undefined) {
+            return namespace;
+        }
+        return undefined;
+    }
+    _execv(runtime, name, input, args) {
+        let program = this._findNOSProgram(name);
+        if(program === undefined) {
+            throw new ReferenceError(`There is no program called ${name}.`);
+        }
+        return program({
+            runtime: runtime.createSubRuntime();
+            input,
+            args
+        });
+    }
+    _execl(runtime, name, input, ...args) {
+        return this._execv(runtime, name, input, args);
     }
     /*
     ** Following functions are register API of system.
@@ -91,6 +128,9 @@ users: system: ${[...this._users.entries()]}`);
     }
     registerCanonicalGenerator(o) {
         this.registerGenerator(canonicalGeneratorFactory(o));
+    }
+    registerNOSProgram(name, programs) {
+        this._namespaces.set(name, programs);
     }
 }
 

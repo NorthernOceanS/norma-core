@@ -3,6 +3,7 @@
 */
 
 let constructors = require("./constructor.js");
+let {runNOS} = require("./nos.js");
 
 Object.assign(exports, constructors);
 
@@ -81,6 +82,7 @@ users: system: ${[...this._users.entries()]}`);
         runtime.createSubRuntime = this._createSubRuntime.bind(this, runtime);
         runtime.execl = this._execl.bind(this, runtime);
         runtime.exev = this._execv.bind(this, runtime);
+        runtime.runNOS = runNOS.bind(undefined, runtime);
         return runtime;
     }
     _hijack(runtime, auth) {

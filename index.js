@@ -33,7 +33,11 @@ class System {
         this._platform = platform;
     }
     createUser(id) {
-        return new UserSystem(this, id);
+        let user = new UserSystem(this);
+        this._users.set(id, user);
+        this._ids.set(user, id);
+        user.init();
+        return user;
     }
     hasUser(id) {
         return this._users.has(id);
@@ -55,10 +59,6 @@ users: system: ${[...this._users.entries()]}`);
 
     ** please don't rely on these functions.
     */
-    addUser(id, user) {
-        this._users.set(id, user);
-        this._ids.set(user, id);
-    }
     removeUser(user) {
         let id = this._ids.get(user);
         this._users.delete(id);
@@ -139,22 +139,23 @@ users: system: ${[...this._users.entries()]}`);
 exports.System = System;
 
 class UserSystem {
-    constructor(system, id) {
+    constructor(system) {
         this._system = system;
         this.session = {};
-        this._system.addUser(id, this);
         this._generators = system.getGenerators();
         this._generatorStates = Array(this._generators.length);
         for(let i = 0; i < this._generatorStates.length; ++i) {
             this._generatorStates[i] = {};
         }
+        this._generatorIndex = 0;
+    }
+    init() {
         for(let i = 0; i < this._generatorStates.length; ++i) {
             this._generators[i].onInit({
                 state: this._generatorStates[i],
                 runtime: this._createRuntime(this._generators[i]),
             });
         }
-        this._generatorIndex = 0;
     }
     nextGenerator() {
         this._generatorIndex++;

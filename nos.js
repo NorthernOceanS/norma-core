@@ -55,13 +55,13 @@ exports.lex = lex;
 
 function runNOS(runtime, nos, input) {
     let tokens = lex(nos);
-    return nos.reduce((argss, token) => {
+    return tokens.reduce((argss, token) => {
         if(token.typeName === "operator" && token.value === "|") {
             argss.push([]);
         } else {
             argss[argss.length - 1].push(token.value);
         }
-    }, [])
+    }, [[]])
     .reduce((input, args) => {
         if(args.length === 0) {
             throw new SyntaxError("Unexpected token |");

@@ -20,7 +20,9 @@ class System {
         this._users = new Map();
         this._ids = new Map();
         this._auths = new Map();
-        this._nativeNOSPrograms = new Map();
+        this._nativeNOSPrograms = new Map([
+            ["set", programSet]
+        ]);
         this._namespaces = new Map();
     }
     /*
@@ -143,6 +145,17 @@ users: system: ${[...this._users.entries()]}`);
         this._namespaces.set(name, programs);
     }
 }
+
+function programSet(e) {
+    let {runtime, args, input} = e;
+    if(args[1] !== "o" && args[1] !== "option" && args[1] !== "s" && args[1] !== "state") {
+        throw new Error("${args[0]} can only set state.");
+    }
+    let state = runtime.getCurrentState();
+    set[args[2]] = args[3];
+    return undefined;
+}
+
 
 exports.System = System;
 

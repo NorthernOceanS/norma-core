@@ -78,11 +78,19 @@ users: system: ${[...this._users.entries()]}`);
         let newAuth = Object.assign({}, auth);
         return this.createRuntime(newAuth);
     }
+    _getCurrentState(runtime) {
+        let auth = this._auths.get(runtime);
+        if(!this._users.has(auth.user)) {
+            throw new ReferenceError('No such user.')
+        }
+        return auth.user.getCurrentState();
+    }
     _mixinSystemRuntime(runtime) {
         runtime.createSubRuntime = this._createSubRuntime.bind(this, runtime);
         runtime.execl = this._execl.bind(this, runtime);
         runtime.execv = this._execv.bind(this, runtime);
         runtime.runNOS = runNOS.bind(undefined, runtime);
+        runtime.getCurrentState = this._getCurrentState.bind(this, runtime);
         return runtime;
     }
     _hijack(runtime, auth) {

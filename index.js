@@ -13,6 +13,25 @@ const emptyPlatform = {
 
 exports.emptyPlatform = emptyPlatform;
 
+let VALID_COMMAND = [
+    "nextGenerator",
+    "perviousGenerator",
+    "addPosition",
+    "addBlockType",
+    "addDirection",
+    "removePosition",
+    "removeBlockType",
+    "removeDirection",
+    "useItem",
+    "isValidParameter",
+    "generate",
+    "UIHandler",
+    "exit",
+    "getCurrentGeneratorName",
+    "getCurrentUI",
+    "getCurrentState"
+];
+
 class System {
     constructor() {
         this._platform = null;
@@ -87,12 +106,23 @@ users: system: ${[...this._users.entries()]}`);
         }
         return auth.user.getCurrentState();
     }
+    _executeUserSystemCommand(runtime, command, data) {
+        let auth = this._auths.get(runtime);
+        if(!this._users.has(auth.user)) {
+            throw new ReferenceError('No such user.')
+        }
+        if(VALID_COMMAND.find(command) === undefined) {
+            throw new ReferenceError('No such command: ${command}.')
+        }
+        return auth.user[command](data);
+    }
     _mixinSystemRuntime(runtime) {
         runtime.createSubRuntime = this._createSubRuntime.bind(this, runtime);
         runtime.execl = this._execl.bind(this, runtime);
         runtime.execv = this._execv.bind(this, runtime);
         runtime.runNOS = runNOS.bind(undefined, runtime);
         runtime.getCurrentState = this._getCurrentState.bind(this, runtime);
+        runtime.executeUserSystemCommand = this._executeUserSystemCommand.bind(this, runtime);
         return runtime;
     }
     _hijack(runtime, auth) {

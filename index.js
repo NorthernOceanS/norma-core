@@ -7,11 +7,32 @@ let {runNOS} = require("./nos.js");
 
 Object.assign(exports, constructors);
 
+let {BlockType} = constructors;
+
 const emptyPlatform = {
     use() { /* no-op */ }
 }
 
 exports.emptyPlatform = emptyPlatform;
+
+let VALID_COMMAND = [
+    "nextGenerator",
+    "perviousGenerator",
+    "addPosition",
+    "addBlockType",
+    "addDirection",
+    "removePosition",
+    "removeBlockType",
+    "removeDirection",
+    "useItem",
+    "isValidParameter",
+    "generate",
+    "UIHandler",
+    "exit",
+    "getCurrentGeneratorName",
+    "getCurrentUI",
+    "getCurrentState"
+];
 
 class System {
     constructor() {
@@ -20,7 +41,10 @@ class System {
         this._users = new Map();
         this._ids = new Map();
         this._auths = new Map();
-        this._nativeNOSPrograms = new Map();
+        this._nativeNOSPrograms = new Map([
+            ["set", programSet],
+            ["add", programAdd]
+        ]);
         this._namespaces = new Map();
     }
     /*
@@ -78,11 +102,30 @@ users: system: ${[...this._users.entries()]}`);
         let newAuth = Object.assign({}, auth);
         return this.createRuntime(newAuth);
     }
+    _getCurrentState(runtime) {
+        let auth = this._auths.get(runtime);
+        if(!this._users.has(auth.user)) {
+            throw new ReferenceError('No such user.')
+        }
+        return auth.user.getCurrentState();
+    }
+    _executeUserSystemCommand(runtime, command, ...args) {
+        let auth = this._auths.get(runtime);
+        if(!this._users.has(auth.user)) {
+            throw new ReferenceError('No such user.')
+        }
+        if(VALID_COMMAND.find(command) === undefined) {
+            throw new ReferenceError('No such command: ${command}.')
+        }
+        return auth.user[command](...args);
+    }
     _mixinSystemRuntime(runtime) {
         runtime.createSubRuntime = this._createSubRuntime.bind(this, runtime);
         runtime.execl = this._execl.bind(this, runtime);
         runtime.execv = this._execv.bind(this, runtime);
         runtime.runNOS = runNOS.bind(undefined, runtime);
+        runtime.getCurrentState = this._getCurrentState.bind(this, runtime);
+        runtime.executeUserSystemCommand = this._executeUserSystemCommand.bind(this, runtime);
         return runtime;
     }
     _hijack(runtime, auth) {
@@ -135,6 +178,27 @@ users: system: ${[...this._users.entries()]}`);
         this._namespaces.set(name, programs);
     }
 }
+
+function programSet(e) {
+    let {runtime, args, input} = e;
+    if(args[1] !== "o" && args[1] !== "option" && args[1] !== "s" && args[1] !== "state") {
+        throw new Error(`${args[0]} can only set state.`);
+    }
+    let state = runtime.getCurrentState();
+    set[args[2]] = args[3];
+    return undefined;
+}
+
+function programAdd(e) {
+    let {runtime, args, input} = e;
+    if(args[1] !== "b") {
+        throw new Error(`${args[0]} can only add blockType.`);
+    }
+    let blockType = new BlockType(args[2], JSON.parse(args[3]));
+    runtime.executeUserSystemCommand("addBlockType", blockType);
+    return undefined;
+}
+
 
 exports.System = System;
 

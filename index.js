@@ -182,7 +182,7 @@ users: system: ${[...this._users.entries()]}`);
 function programSet(e) {
     let {runtime, args, input} = e;
     if(args[1] !== "o" && args[1] !== "option" && args[1] !== "s" && args[1] !== "state") {
-        throw new Error("${args[0]} can only set state.");
+        throw new Error(`${args[0]} can only set state.`);
     }
     let state = runtime.getCurrentState();
     set[args[2]] = args[3];

@@ -335,6 +335,10 @@ class UserSystem {
     getCurrentState() {
         return this._generatorStates[this._generatorIndex];
     }
+    runNOS(nos, input) {
+        let runtime = this._createRuntime(this);
+        return runtime.runNOS(nos, input);
+    }
     _createGeneratorBasicE(index) {
         return {
             state: this._generatorStates[index],

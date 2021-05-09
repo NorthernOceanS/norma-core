@@ -189,7 +189,7 @@ function programSet(e) {
     return undefined;
 }
 
-function programSet(e) {
+function programAdd(e) {
     let {runtime, args, input} = e;
     if(args[1] !== "b") {
         throw new Error(`${args[0]} can only add blockType.`);

@@ -339,6 +339,14 @@ class UserSystem {
         let runtime = this._createRuntime(this);
         return runtime.runNOS(nos, input);
     }
+    execv(name, input, args) {
+        let runtime = this._createRuntime(this);
+        return runtime.execv(name, input, args);
+    }
+    execl(name, input, ...args) {
+        let runtime = this._createRuntime(this);
+        return runtime.execl(name, input, ...args);
+    }
     _createGeneratorBasicE(index) {
         return {
             state: this._generatorStates[index],

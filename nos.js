@@ -10,7 +10,7 @@ let TOKEN_TYPES = [
     },
     {
         name: "stringLiteral",
-        regExp: /"(?:[^\\"]|\\.|\\u\d{4}|\\u\{\d*\})*"?|"(?:[^\\"]|\\.|\\u\d{4}|\\u\{\d*\})*"?/u,
+        regExp: /"(?:[^\\"]|\\.|\\u\d{4}|\\u\{\d*\})*"?|'(?:[^\\']|\\.|\\u\d{4}|\\u\{\d*\})*'?/u,
         toValue: saferEval,
     },
     {
@@ -20,7 +20,7 @@ let TOKEN_TYPES = [
     },
     {
         name: "directLiteral",
-        regExp: /[^""`\|\s]+/u,
+        regExp: /[^"'`\|\s]+/u,
         toValue: (a) => a,
     },
 ];

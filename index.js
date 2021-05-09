@@ -7,6 +7,8 @@ let {runNOS} = require("./nos.js");
 
 Object.assign(exports, constructors);
 
+let {BlockType} = constructors;
+
 const emptyPlatform = {
     use() { /* no-op */ }
 }
@@ -40,7 +42,8 @@ class System {
         this._ids = new Map();
         this._auths = new Map();
         this._nativeNOSPrograms = new Map([
-            ["set", programSet]
+            ["set", programSet],
+            ["add", programAdd]
         ]);
         this._namespaces = new Map();
     }
@@ -183,6 +186,16 @@ function programSet(e) {
     }
     let state = runtime.getCurrentState();
     set[args[2]] = args[3];
+    return undefined;
+}
+
+function programSet(e) {
+    let {runtime, args, input} = e;
+    if(args[1] !== "b") {
+        throw new Error(`${args[0]} can only add blockType.`);
+    }
+    let blockType = new BlockType(args[2], JSON.parse(args[3]));
+    runtime.executeUserSystemCommand("addBlockType", blockType);
     return undefined;
 }
 

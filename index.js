@@ -109,7 +109,7 @@ users: system: ${[...this._users.entries()]}`);
         }
         return auth.user.getCurrentState();
     }
-    _executeUserSystemCommand(runtime, command, data) {
+    _executeUserSystemCommand(runtime, command, ...args) {
         let auth = this._auths.get(runtime);
         if(!this._users.has(auth.user)) {
             throw new ReferenceError('No such user.')
@@ -117,7 +117,7 @@ users: system: ${[...this._users.entries()]}`);
         if(VALID_COMMAND.find(command) === undefined) {
             throw new ReferenceError('No such command: ${command}.')
         }
-        return auth.user[command](data);
+        return auth.user[command](...args);
     }
     _mixinSystemRuntime(runtime) {
         runtime.createSubRuntime = this._createSubRuntime.bind(this, runtime);

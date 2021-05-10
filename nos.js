@@ -41,7 +41,7 @@ function saferEval(literal) {
 }
 
 function lex(string) {
-    let tokenRegExp = new RegExp(`(\s*)(${TOKEN_TYPES.map((t) => t.regExp.source).join("|")})\s*`, 'gu');
+    let tokenRegExp = new RegExp(`(\\s*)(${TOKEN_TYPES.map((t) => t.regExp.source).join("|")})\\s*`, 'gu');
     let result;
     let tokens = [];
     while((result = tokenRegExp.exec(string))) {

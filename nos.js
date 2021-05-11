@@ -10,7 +10,7 @@ let TOKEN_TYPES = [
     },
     {
         name: "stringLiteral",
-        regExp: /"(?:[^\\"]|\\.|\\u\d{4}|\\u\{\d*\})*"?|'(?:[^\\']|\\.|\\u\d{4}|\\u\{\d*\})*'?/u,
+        regExp: /"(?:[^\\"]|\\.|\\u\d{4}|\\u\{\d*\})*"|'(?:[^\\']|\\.|\\u\d{4}|\\u\{\d*\})*'/u,
         toValue: saferEval,
     },
     {
@@ -22,6 +22,11 @@ let TOKEN_TYPES = [
         name: "directLiteral",
         regExp: /[^"'`\|\s]+/u,
         toValue: (a) => a,
+    },
+    {
+        name: "unclosedStringLiteral",
+        regExp: /"(?:[^\\"]|\\.|\\u\d{4}|\\u\{\d*\})*$|'(?:[^\\']|\\.|\\u\d{4}|\\u\{\d*\})*$/u,
+        toValue: (raw) => {throw new SyntaxError(`Unclosed string literal ${raw}.`)},
     },
 ];
 
@@ -36,7 +41,7 @@ function saferEval(literal) {
 }
 
 function lex(string) {
-    let tokenRegExp = new RegExp(`(\s*)(${TOKEN_TYPES.map((t) => t.regExp.source).join("|")})\s*`, 'gu');
+    let tokenRegExp = new RegExp(`(\\s*)(${TOKEN_TYPES.map((t) => t.regExp.source).join("|")})\\s*`, 'gu');
     let result;
     let tokens = [];
     while((result = tokenRegExp.exec(string))) {

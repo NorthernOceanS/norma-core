@@ -222,13 +222,37 @@ class UserSystem {
         }
     }
     nextGenerator() {
+        let oldGen = this._generators[this._generatorIndex];
+        oldGen.onFocus && oldGen.onBlur({
+            state: this._generatorStates[this._generatorIndex],
+            position,
+            runtime: this._createRuntime(oldGen),
+        });
         this._generatorIndex++;
         this._generatorIndex %= this._generators.length;
+        let newGen = this._generators[this._generatorIndex];
+        newGen.onFocus && newGen.onFocus({
+            state: this._generatorStates[this._generatorIndex],
+            position,
+            runtime: this._createRuntime(newGen),
+        });
     }
     perviousGenerator() {
+        let oldGen = this._generators[this._generatorIndex];
+        oldGen.onFocus && oldGen.onBlur({
+            state: this._generatorStates[this._generatorIndex],
+            position,
+            runtime: this._createRuntime(oldGen),
+        });
         this._generatorIndex--;
         this._generatorIndex += this._generators.length;
         this._generatorIndex %= this._generators.length;
+        let newGen = this._generators[this._generatorIndex];
+        newGen.onFocus && newGen.onFocus({
+            state: this._generatorStates[this._generatorIndex],
+            position,
+            runtime: this._createRuntime(newGen),
+        });
     }
     addPosition(position) {
         let gen = this._generators[this._generatorIndex];

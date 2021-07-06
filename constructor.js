@@ -34,8 +34,9 @@ class BlockType {
     }
     get blockstate() {
         if (this._flag.blockstateUpToDate ?? false) {
+            return this._data.blockstate;
         }
-        else return this._data.blockstate;
+        else;
     }
     set blockstate(blockstate) {
         this._data.blockstate = blockstate;
@@ -44,8 +45,9 @@ class BlockType {
     }
     get tiledata() {
         if (this._flag.tiledataUpToDate ?? false) {
+            return this._data.tiledata
         }
-        else return this._data.tiledata
+        else;
     }
     set tiledata(tiledata) {
         this._data.tiledata = tiledata;
@@ -59,7 +61,7 @@ class BlockType {
         this._data.blockIdentifier = blockIdentifier
         this._flag.tiledataUpToDate = false;
         this._flag.blockstateUpToDate = false;
-        this.blockIdentifier = null;
+        this.blockstate = null;
         this.tiledata = null;
     }
 }

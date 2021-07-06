@@ -18,7 +18,7 @@ class Coordinate {
 class Position {
     constructor(coordinate, dimension) {
         this.coordinate = coordinate;
-        this.dimension = dimension;
+        this.dimension = dimension ?? "overworld";
     }
 }
 class BlockType {

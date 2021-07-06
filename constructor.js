@@ -9,11 +9,16 @@ class Coordinate {
         this.y = y;
         this.z = z;
     }
+    add({ x, y, z }) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
 }
 class Position {
-    constructor(coordinate, tickingArea) {
+    constructor(coordinate, dimension) {
         this.coordinate = coordinate;
-        this.tickingArea = tickingArea;
+        this.dimension = dimension;
     }
 }
 class BlockType {

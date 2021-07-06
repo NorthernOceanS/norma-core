@@ -17,9 +17,50 @@ class Position {
     }
 }
 class BlockType {
-    constructor(blockIdentifier, blockState) {
+    _data = { "blockIdentifier": null, "blockstate": null, "tiledata": null }
+    _flag = { "blockstateUpToDate": false, "tiledataUpToDate": false }
+    constructor(blockIdentifier) {
         this.blockIdentifier = blockIdentifier;
-        this.blockState = blockState;
+    }
+    static fromBlockstate(blockIdentifier, blockstate) {
+        let blockType = new BlockType(blockIdentifier);
+        blockType.blockstate = blockstate;
+        return blockType;
+    }
+    static fromTiledata(blockIdentifier, tiledata) {
+        let blockType = new BlockType(blockIdentifier);
+        blockType.tiledata = tiledata;
+        return blockType;
+    }
+    get blockstate() {
+        if (this._flag.blockstateUpToDate ?? false) {
+        }
+        else return this._data.blockstate;
+    }
+    set blockstate(blockstate) {
+        this._data.blockstate = blockstate;
+        this._flag.blockstateUpToDate = true;
+        this._flag.tiledataUpToDate = false;
+    }
+    get tiledata() {
+        if (this._flag.tiledataUpToDate ?? false) {
+        }
+        else return this._data.tiledata
+    }
+    set tiledata(tiledata) {
+        this._data.tiledata = tiledata;
+        this._flag.tiledataUpToDate = true;
+        this._flag.blockstateUpToDate = false;
+    }
+    get blockIdentifier() {
+        return this._data.blockIdentifier;
+    }
+    set blockIdentifier(blockIdentifier) {
+        this._data.blockIdentifier = blockIdentifier
+        this._flag.tiledataUpToDate = false;
+        this._flag.blockstateUpToDate = false;
+        this.blockIdentifier = null;
+        this.tiledata = null;
     }
 }
 class Direction {
@@ -78,11 +119,11 @@ class Generator {
     }
 }
 
-class BuildInstruction{
-    constructor(type,data){
+class BuildInstruction {
+    constructor(type, data) {
         this.type = type;
         this.data = data;
     }
 }
 
-module.exports = { Coordinate, Position, BlockType, Block, Direction, Usage, Description, Generator,BuildInstruction };
+module.exports = { Coordinate, Position, BlockType, Block, Direction, Usage, Description, Generator, BuildInstruction };

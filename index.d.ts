@@ -3,90 +3,90 @@
 export class System {
     constructor(...args: any[]);
 
-    createRuntime(...args: any[]): void;
+    createRuntime(...args: any[]): any;
 
-    createUser(...args: any[]): void;
+    createUser(...args: any[]): any;
 
-    getGenerators(...args: any[]): void;
+    getGenerators(...args: any[]): any;
 
-    getUser(...args: any[]): void;
+    getUser(...args: any[]): any;
 
-    hasUser(...args: any[]): void;
+    hasUser(...args: any[]): any;
 
-    inject(...args: any[]): void;
+    inject(...args: any[]): any;
 
-    registerCanonicalGenerator(...args: any[]): void;
+    registerCanonicalGenerator(...args: any[]): any;
 
-    registerGenerator(...args: any[]): void;
+    registerGenerator(...args: any[]): any;
 
-    registerNOSProgram(...args: any[]): void;
+    registerNOSProgram(...args: any[]): any;
 
-    removeUser(...args: any[]): void;
+    removeUser(...args: any[]): any;
 
 }
 
 export class UserSystem {
     constructor(...args: any[]);
 
-    UIHandler(...args: any[]): void;
+    UIHandler(...args: any[]): any;
 
-    addBlockType(...args: any[]): void;
+    addBlockType(...args: any[]): any;
 
-    addDirection(...args: any[]): void;
+    addDirection(...args: any[]): any;
 
-    addPosition(...args: any[]): void;
+    addPosition(...args: any[]): any;
 
-    execl(...args: any[]): void;
+    execl(...args: any[]): any;
 
-    execv(...args: any[]): void;
+    execv(...args: any[]): any;
 
-    exit(...args: any[]): void;
+    exit(...args: any[]): any;
 
-    generate(...args: any[]): void;
+    generate(...args: any[]): any;
 
-    getCurrentGeneratorName(...args: any[]): void;
+    getCurrentGeneratorName(...args: any[]): any;
 
-    getCurrentState(...args: any[]): void;
+    getCurrentState(...args: any[]): any;
 
-    getCurrentUI(...args: any[]): void;
+    getCurrentUI(...args: any[]): any;
 
-    init(...args: any[]): void;
+    init(...args: any[]): any;
 
-    isValidParameter(...args: any[]): void;
+    isValidParameter(...args: any[]): any;
 
-    nextGenerator(...args: any[]): void;
+    nextGenerator(...args: any[]): any;
 
-    perviousGenerator(...args: any[]): void;
+    perviousGenerator(...args: any[]): any;
 
-    removeBlockType(...args: any[]): void;
+    removeBlockType(...args: any[]): any;
 
-    removeDirection(...args: any[]): void;
+    removeDirection(...args: any[]): any;
 
-    removePosition(...args: any[]): void;
+    removePosition(...args: any[]): any;
 
-    runNOS(...args: any[]): void;
+    runNOS(...args: any[]): any;
 
-    useItem(...args: any[]): void;
+    useItem(...args: any[]): any;
 
 }
 
-export function Block(...args: any[]): void;
+export function Block(...args: any[]): any;
 
-export function BlockType(...args: any[]): void;
+export function BlockType(...args: any[]): any;
 
-export function BuildInstruction(...args: any[]): void;
+export function BuildInstruction(...args: any[]): any;
 
-export function Coordinate(...args: any[]): void;
+export function Coordinate(...args: any[]): any;
 
-export function Description(...args: any[]): void;
+export function Description(...args: any[]): any;
 
-export function Direction(...args: any[]): void;
+export function Direction(...args: any[]): any;
 
-export function Generator(...args: any[]): void;
+export function Generator(...args: any[]): any;
 
-export function Position(...args: any[]): void;
+export function Position(...args: any[]): any;
 
-export function Usage(...args: any[]): void;
+export function Usage(...args: any[]): any;
 
 export function canonicalGeneratorFactory({
     description,
@@ -106,7 +106,7 @@ export function canonicalGeneratorFactory({
 }: any): any;
 
 export namespace emptyPlatform {
-    function use(...args: any[]): void;
+    function use(...args: any[]): any;
 
 }
 

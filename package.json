@@ -1,9 +1,10 @@
 {
   "name": "norma-core",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "the core of NormaConstructor",
   "main": "index.js",
   "type": "commonjs",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

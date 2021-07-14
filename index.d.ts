@@ -70,23 +70,23 @@ export class UserSystem {
 
 }
 
-export function Block(...args: any[]): any;
+export function Block(...args: any[]): void;
 
-export function BlockType(...args: any[]): any;
+export function BlockType(...args: any[]): void;
 
-export function BuildInstruction(...args: any[]): any;
+export function BuildInstruction(...args: any[]): void;
 
-export function Coordinate(...args: any[]): any;
+export function Coordinate(...args: any[]): void;
 
-export function Description(...args: any[]): any;
+export function Description(...args: any[]): void;
 
-export function Direction(...args: any[]): any;
+export function Direction(...args: any[]): void;
 
-export function Generator(...args: any[]): any;
+export function Generator(...args: any[]): void;
 
-export function Position(...args: any[]): any;
+export function Position(...args: any[]): void;
 
-export function Usage(...args: any[]): any;
+export function Usage(...args: any[]): void;
 
 export function canonicalGeneratorFactory({
     description,
@@ -103,7 +103,7 @@ export function canonicalGeneratorFactory({
     method: {
         generate, UIHandler
     }
-}: any): any;
+}: any): void;
 
 export namespace emptyPlatform {
     function use(...args: any[]): any;

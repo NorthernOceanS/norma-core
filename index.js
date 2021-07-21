@@ -202,6 +202,8 @@ function programAdd(e) {
 
 exports.System = System;
 
+exports.systemInstance = new System();
+
 class UserSystem {
     constructor(system) {
         this._system = system;

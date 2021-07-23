@@ -25,11 +25,11 @@ function assertBlockstateEqual(a, b) {
     return a === b || (a && b && typeof a === "object" && typeof b === "object" && Object.keys(a).length === Object.keys(b) && Object.keys(a).every((property) => a[property] === b[property]))
 }
 class BlockType {
-    _data = { "blockIdentifier": null, "blockstate": null, "tiledata": null }
-    _flag = { "blockstateUpToDate": false, "tiledataUpToDate": false }
     static _blockMap = null
     constructor(blockIdentifier) {
         this.blockIdentifier = blockIdentifier;
+        this._data = { "blockIdentifier": null, "blockstate": null, "tiledata": null };
+        this._flag = { "blockstateUpToDate": false, "tiledataUpToDate": false };
     }
     static fromBlockstate(blockIdentifier, blockstate) {
         let blockType = new BlockType(blockIdentifier);
@@ -50,7 +50,7 @@ class BlockType {
             return this._data.blockstate;
         }
         else {
-            if (!_blockMap) return null
+            if (!BlockType._blockMap) return null
             const { id, data } = BlockType._blockMap.get(this.blockIdentifier)
             if (!id || !data.hasOwnProperty(this.tiledata)) return null
             this._data.blockstate = data[this.tiledata]
@@ -68,7 +68,7 @@ class BlockType {
             return this._data.tiledata
         }
         else {
-            if (!_blockMap) return null
+            if (!BlockType._blockMap) return null
             const { id, data } = BlockType._blockMap.get(this.blockIdentifier)
             if (!id) return null
             for (const tiledata in data)

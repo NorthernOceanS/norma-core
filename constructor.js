@@ -16,9 +16,9 @@ class Coordinate {
     }
 }
 class Position {
-    constructor(coordinate, dimension) {
+    constructor(coordinate, dimension = "overworld") {
         this.coordinate = coordinate;
-        this.dimension = dimension ?? "overworld";
+        this.dimension = dimension;
     }
 }
 function assertBlockstateEqual(a, b) {

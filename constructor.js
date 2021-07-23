@@ -51,7 +51,7 @@ class BlockType {
         }
         else {
             if (!BlockType._blockMap) return null
-            const { id, data } = BlockType._blockMap.get(this.blockIdentifier)
+            const { id, data } = BlockType._blockMap.get(this.blockIdentifier) || {}
             if (!id || !data.hasOwnProperty(this.tiledata)) return null
             this._data.blockstate = data[this.tiledata]
             this._flag.blockstateUpToDate = true
@@ -69,7 +69,7 @@ class BlockType {
         }
         else {
             if (!BlockType._blockMap) return null
-            const { id, data } = BlockType._blockMap.get(this.blockIdentifier)
+            const { id, data } = BlockType._blockMap.get(this.blockIdentifier) || {}
             if (!id) return null
             for (const tiledata in data)
                 if (assertBlockstateEqual(data[tiledata], this.blockstate)) {

@@ -21,9 +21,13 @@ class Position {
         this.dimension = dimension ?? "overworld";
     }
 }
+function assertBlockstateEqual(a, b) {
+    return a === b || (a && b && typeof a === "object" && typeof b === "object" && Object.keys(a).length === Object.keys(b) && Object.keys(a).every((property) => a[property] === b[property]))
+}
 class BlockType {
     _data = { "blockIdentifier": null, "blockstate": null, "tiledata": null }
     _flag = { "blockstateUpToDate": false, "tiledataUpToDate": false }
+    static _blockMap = null
     constructor(blockIdentifier) {
         this.blockIdentifier = blockIdentifier;
     }
@@ -37,11 +41,22 @@ class BlockType {
         blockType.tiledata = tiledata;
         return blockType;
     }
+    //The format of blockMap is expected to be in accordance with https://github.com/dzx-dzx/BlockJS/blob/main/Block.js. 
+    static useBlockMap(blockMap) {
+        this._blockMap = new Map(blockMap)
+    }
     get blockstate() {
-        if (this._flag.blockstateUpToDate ?? false) {
+        if (this._flag.blockstateUpToDate) {
             return this._data.blockstate;
         }
-        else;
+        else {
+            if (!_blockMap) return null
+            const { id, data } = BlockType._blockMap.get(this.blockIdentifier)
+            if (!id || !data.hasOwnProperty(this.tiledata)) return null
+            this._data.blockstate = data[this.tiledata]
+            this._flag.blockstateUpToDate = true
+            return this.blockstate
+        };
     }
     set blockstate(blockstate) {
         this._data.blockstate = blockstate;
@@ -49,10 +64,20 @@ class BlockType {
         this._flag.tiledataUpToDate = false;
     }
     get tiledata() {
-        if (this._flag.tiledataUpToDate ?? false) {
+        if (this._flag.tiledataUpToDate) {
             return this._data.tiledata
         }
-        else;
+        else {
+            if (!_blockMap) return null
+            const { id, data } = BlockType._blockMap.get(this.blockIdentifier)
+            if (!id) return null
+            for (const tiledata in data)
+                if (assertBlockstateEqual(data[tiledata], this.blockstate)) {
+                    this._data.tiledata = tiledata
+                    return tiledata
+                }
+            return null;
+        };
     }
     set tiledata(tiledata) {
         this._data.tiledata = tiledata;

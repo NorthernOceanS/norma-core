@@ -49,14 +49,14 @@ class BlockType {
         if (this._flag.blockstateUpToDate) {
             return this._data.blockstate;
         }
-        else {
+        else if (this._flag.tiledataUpToDate) {
             if (!BlockType._blockMap) return null
             const { id, data } = BlockType._blockMap.get(this.blockIdentifier) || {}
             if (!id || !data.hasOwnProperty(this.tiledata)) return null
             this._data.blockstate = data[this.tiledata]
             this._flag.blockstateUpToDate = true
             return this.blockstate
-        };
+        } else return null;
     }
     set blockstate(blockstate) {
         this._data.blockstate = blockstate;
@@ -67,7 +67,7 @@ class BlockType {
         if (this._flag.tiledataUpToDate) {
             return this._data.tiledata
         }
-        else {
+        else if (this._flag.blockstateUpToDate) {
             if (!BlockType._blockMap) return null
             const { id, data } = BlockType._blockMap.get(this.blockIdentifier) || {}
             if (!id) return null
@@ -77,7 +77,7 @@ class BlockType {
                     return tiledata
                 }
             return null;
-        };
+        } else return null;
     }
     set tiledata(tiledata) {
         this._data.tiledata = tiledata;

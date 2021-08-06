@@ -185,7 +185,7 @@ function programSet(e) {
         throw new Error(`${args[0]} can only set state.`);
     }
     let state = runtime.getCurrentState();
-    set[args[2]] = args[3];
+    state[args[2]] = args[3];
     return undefined;
 }
 
@@ -239,14 +239,12 @@ class UserSystem {
         let oldGen = this._generators[this._generatorIndex];
         oldGen.onBlur && oldGen.onBlur({
             state: this._generatorStates[this._generatorIndex],
-            position,
             runtime: this._createRuntime(oldGen),
         });
         this._generatorIndex = index;
         let newGen = this._generators[this._generatorIndex];
         newGen.onFocus && newGen.onFocus({
             state: this._generatorStates[this._generatorIndex],
-            position,
             runtime: this._createRuntime(newGen),
         });
     }
@@ -373,7 +371,7 @@ class UserSystem {
     _createGeneratorBasicE(index) {
         return {
             state: this._generatorStates[index],
-            runtime: this._generatorIndex(this._generators[index]),
+            runtime: this._createRuntime(this._generators[index]),
         }
     }
     _createRuntime(plugin) {

@@ -225,7 +225,7 @@ class UserSystem {
     }
     nextGenerator() {
         let oldGen = this._generators[this._generatorIndex];
-        oldGen.onFocus && oldGen.onBlur({
+        oldGen.onBlur && oldGen.onBlur({
             state: this._generatorStates[this._generatorIndex],
             position,
             runtime: this._createRuntime(oldGen),
@@ -241,7 +241,7 @@ class UserSystem {
     }
     perviousGenerator() {
         let oldGen = this._generators[this._generatorIndex];
-        oldGen.onFocus && oldGen.onBlur({
+        oldGen.onBlur && oldGen.onBlur({
             state: this._generatorStates[this._generatorIndex],
             position,
             runtime: this._createRuntime(oldGen),

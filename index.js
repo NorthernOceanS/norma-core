@@ -224,37 +224,13 @@ class UserSystem {
         }
     }
     nextGenerator() {
-        let oldGen = this._generators[this._generatorIndex];
-        oldGen.onBlur && oldGen.onBlur({
-            state: this._generatorStates[this._generatorIndex],
-            position,
-            runtime: this._createRuntime(oldGen),
-        });
-        this._generatorIndex++;
-        this._generatorIndex %= this._generators.length;
-        let newGen = this._generators[this._generatorIndex];
-        newGen.onFocus && newGen.onFocus({
-            state: this._generatorStates[this._generatorIndex],
-            position,
-            runtime: this._createRuntime(newGen),
-        });
+        let newIndex = (this._generatorIndex + 1) % this._generators.length;
+        this.switchGenerator(newIndex);
     }
     perviousGenerator() {
-        let oldGen = this._generators[this._generatorIndex];
-        oldGen.onBlur && oldGen.onBlur({
-            state: this._generatorStates[this._generatorIndex],
-            position,
-            runtime: this._createRuntime(oldGen),
-        });
-        this._generatorIndex--;
-        this._generatorIndex += this._generators.length;
-        this._generatorIndex %= this._generators.length;
-        let newGen = this._generators[this._generatorIndex];
-        newGen.onFocus && newGen.onFocus({
-            state: this._generatorStates[this._generatorIndex],
-            position,
-            runtime: this._createRuntime(newGen),
-        });
+        let newIndex = this._generatorIndex + this._generators.length - 1;
+        newIndex %= this._generators.length;
+        this.switchGenerator(newIndex);
     }
     switchGenerator(index) {
         if(this._generatorIndex === index) {

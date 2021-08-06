@@ -75,52 +75,52 @@ export const systemInstance: System
 export class Block {
     constructor(position: Position, blockType: BlockType)
     position: Position; blockType: BlockType;
-};
+}
 
 export class BlockType {
     constructor(blockIdentifier: string, blockState: any)
     blockIdentifier: string; blockState: any;
-};
+}
 
 export class BuildInstruction {
     constructor(type: string, data: any)
     type: string; data: any
-};
+}
 
 export class Coordinate {
     constructor(x: number, y: number, z: number)
     x: number; y: number; z: number;
-};
+}
 
 export class Description {
     constructor(name: string, usage: Usage)
     name: string; usage: Usage
-};
+}
 
 export class Direction {
     constructor(x: number, y: number)
     x: number; y: number;
-};
+}
 
 export class Generator {
     constructor(description: Description,
-        positionArray, blockTypeArray, directionArray, option,
-        addPosition, addBlockType, addDirection,
-        removePosition, removeBlockType, removeDirection,
-        validateParameter, generate, postGenerate, UIHandler)
-};
+        positionArray: any, blockTypeArray: any, directionArray: any, option: any,
+        addPosition: any, addBlockType: any, addDirection: any,
+        removePosition: any, removeBlockType: any, removeDirection: any,
+        validateParameter: any, generate: any, postGenerate: any, UIHandler: any)
+}
 
 export class Position {
     constructor(coordinate: Coordinate, tickingArea: any)
     coordinate: Coordinate; tickingArea: any;
-};
+}
 
 export class Usage {
     constructor(positionUsage: any[], blockTypeUsage: any[], directionUsage: any[], optionUsage: any[])
     positionUsage: any[]; blockTypeUsage: any[]; directionUsage: any[]; optionUsage: any[];
-};
+}
 
-export function canonicalGeneratorFactory({
+export function canonicalGeneratorFactory(o: {
     description: Description,
 
     criteria: {

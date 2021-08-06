@@ -44,7 +44,9 @@ export class UserSystem {
 
     generate(...args: any[]): any;
 
-    getCurrentGeneratorName(...args: any[]): any;
+    getCurrentGeneratorName(): string;
+
+    getGeneratorNames(): string[];
 
     getCurrentState(...args: any[]): any;
 
@@ -54,9 +56,11 @@ export class UserSystem {
 
     isValidParameter(...args: any[]): any;
 
-    nextGenerator(...args: any[]): any;
+    nextGenerator(): any;
 
-    perviousGenerator(...args: any[]): any;
+    perviousGenerator(): any;
+
+    switchGenerator(index: number): any;
 
     removeBlockType(...args: any[]): any;
 

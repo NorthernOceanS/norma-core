@@ -256,6 +256,24 @@ class UserSystem {
             runtime: this._createRuntime(newGen),
         });
     }
+    switchGenerator(index) {
+        if(this._generatorIndex === index) {
+            return;
+        }
+        let oldGen = this._generators[this._generatorIndex];
+        oldGen.onBlur && oldGen.onBlur({
+            state: this._generatorStates[this._generatorIndex],
+            position,
+            runtime: this._createRuntime(oldGen),
+        });
+        this._generatorIndex = index;
+        let newGen = this._generators[this._generatorIndex];
+        newGen.onFocus && newGen.onFocus({
+            state: this._generatorStates[this._generatorIndex],
+            position,
+            runtime: this._createRuntime(newGen),
+        });
+    }
     addPosition(position) {
         let gen = this._generators[this._generatorIndex];
         gen.onAddPosition({
@@ -354,6 +372,9 @@ class UserSystem {
     }
     getCurrentGeneratorName() {
         return this._generators[this._generatorIndex].name;
+    }
+    getGeneratorNames() {
+        return this._generators.map((g) => g.name);
     }
     getCurrentUI() {
         return this._generators[this._generatorIndex].ui;

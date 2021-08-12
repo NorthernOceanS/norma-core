@@ -1,6 +1,6 @@
 {
   "name": "norma-core",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "the core of NormaConstructor",
   "main": "index.js",
   "type": "commonjs",
@@ -18,7 +18,7 @@
     "addon"
   ],
   "author": "NorthernOceanS",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NorthernOceanS/norma-core/issues"
   },

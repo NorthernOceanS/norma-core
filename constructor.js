@@ -21,78 +21,11 @@ class Position {
         this.dimension = dimension;
     }
 }
-function assertBlockstateEqual(a, b) {
-    return a === b || (a && b && typeof a === "object" && typeof b === "object" && Object.keys(a).length === Object.keys(b) && Object.keys(a).every((property) => a[property] === b[property]))
-}
 class BlockType {
-    static _blockMap = null
-    constructor(blockIdentifier) {
+    constructor(blockIdentifier, blockState, blockNBT = {}) {
         this.blockIdentifier = blockIdentifier;
-        this._data = { "blockIdentifier": null, "blockstate": null, "tiledata": null };
-        this._flag = { "blockstateUpToDate": false, "tiledataUpToDate": false };
-    }
-    static fromBlockstate(blockIdentifier, blockstate) {
-        let blockType = new BlockType(blockIdentifier);
-        blockType.blockstate = blockstate;
-        return blockType;
-    }
-    static fromTiledata(blockIdentifier, tiledata) {
-        let blockType = new BlockType(blockIdentifier);
-        blockType.tiledata = tiledata;
-        return blockType;
-    }
-    //The format of blockMap is expected to be in accordance with https://github.com/dzx-dzx/BlockJS/blob/main/Block.js. 
-    static useBlockMap(blockMap) {
-        this._blockMap = new Map(blockMap)
-    }
-    get blockstate() {
-        if (this._flag.blockstateUpToDate) {
-            return this._data.blockstate;
-        }
-        else if (this._flag.tiledataUpToDate) {
-            if (!BlockType._blockMap) return null
-            const { id, data } = BlockType._blockMap.get(this.blockIdentifier) || {}
-            if (!id || !data.hasOwnProperty(this.tiledata)) return null
-            this._data.blockstate = data[this.tiledata]
-            this._flag.blockstateUpToDate = true
-            return this.blockstate
-        } else return null;
-    }
-    set blockstate(blockstate) {
-        this._data.blockstate = blockstate;
-        this._flag.blockstateUpToDate = true;
-        this._flag.tiledataUpToDate = false;
-    }
-    get tiledata() {
-        if (this._flag.tiledataUpToDate) {
-            return this._data.tiledata
-        }
-        else if (this._flag.blockstateUpToDate) {
-            if (!BlockType._blockMap) return null
-            const { id, data } = BlockType._blockMap.get(this.blockIdentifier) || {}
-            if (!id) return null
-            for (const tiledata in data)
-                if (assertBlockstateEqual(data[tiledata], this.blockstate)) {
-                    this._data.tiledata = tiledata
-                    return tiledata
-                }
-            return null;
-        } else return null;
-    }
-    set tiledata(tiledata) {
-        this._data.tiledata = tiledata;
-        this._flag.tiledataUpToDate = true;
-        this._flag.blockstateUpToDate = false;
-    }
-    get blockIdentifier() {
-        return this._data.blockIdentifier;
-    }
-    set blockIdentifier(blockIdentifier) {
-        this._data.blockIdentifier = blockIdentifier
-        this._flag.tiledataUpToDate = false;
-        this._flag.blockstateUpToDate = false;
-        this.blockstate = null;
-        this.tiledata = null;
+        this.blockState = blockState;
+        this.blockNBT = blockNBT
     }
 }
 class Direction {

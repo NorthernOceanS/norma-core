@@ -185,7 +185,7 @@ function programSet(e) {
         throw new Error(`${args[0]} can only set state.`);
     }
     let state = runtime.getCurrentState();
-    set[args[2]] = args[3];
+    state[args[2]] = args[3];
     return undefined;
 }
 
@@ -201,6 +201,8 @@ function programAdd(e) {
 
 
 exports.System = System;
+
+exports.systemInstance = new System();
 
 class UserSystem {
     constructor(system) {
@@ -222,35 +224,27 @@ class UserSystem {
         }
     }
     nextGenerator() {
-        let oldGen = this._generators[this._generatorIndex];
-        oldGen.onFocus && oldGen.onBlur({
-            state: this._generatorStates[this._generatorIndex],
-            position,
-            runtime: this._createRuntime(oldGen),
-        });
-        this._generatorIndex++;
-        this._generatorIndex %= this._generators.length;
-        let newGen = this._generators[this._generatorIndex];
-        newGen.onFocus && newGen.onFocus({
-            state: this._generatorStates[this._generatorIndex],
-            position,
-            runtime: this._createRuntime(newGen),
-        });
+        let newIndex = (this._generatorIndex + 1) % this._generators.length;
+        this.switchGenerator(newIndex);
     }
     perviousGenerator() {
+        let newIndex = this._generatorIndex + this._generators.length - 1;
+        newIndex %= this._generators.length;
+        this.switchGenerator(newIndex);
+    }
+    switchGenerator(index) {
+        if(this._generatorIndex === index) {
+            return;
+        }
         let oldGen = this._generators[this._generatorIndex];
-        oldGen.onFocus && oldGen.onBlur({
+        oldGen.onBlur && oldGen.onBlur({
             state: this._generatorStates[this._generatorIndex],
-            position,
             runtime: this._createRuntime(oldGen),
         });
-        this._generatorIndex--;
-        this._generatorIndex += this._generators.length;
-        this._generatorIndex %= this._generators.length;
+        this._generatorIndex = index;
         let newGen = this._generators[this._generatorIndex];
         newGen.onFocus && newGen.onFocus({
             state: this._generatorStates[this._generatorIndex],
-            position,
             runtime: this._createRuntime(newGen),
         });
     }
@@ -353,6 +347,9 @@ class UserSystem {
     getCurrentGeneratorName() {
         return this._generators[this._generatorIndex].name;
     }
+    getGeneratorNames() {
+        return this._generators.map((g) => g.name);
+    }
     getCurrentUI() {
         return this._generators[this._generatorIndex].ui;
     }
@@ -374,7 +371,7 @@ class UserSystem {
     _createGeneratorBasicE(index) {
         return {
             state: this._generatorStates[index],
-            runtime: this._generatorIndex(this._generators[index]),
+            runtime: this._createRuntime(this._generators[index]),
         }
     }
     _createRuntime(plugin) {

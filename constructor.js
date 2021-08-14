@@ -9,17 +9,23 @@ class Coordinate {
         this.y = y;
         this.z = z;
     }
+    add({ x, y, z }) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
 }
 class Position {
-    constructor(coordinate, tickingArea) {
+    constructor(coordinate, dimension = "overworld") {
         this.coordinate = coordinate;
-        this.tickingArea = tickingArea;
+        this.dimension = dimension;
     }
 }
 class BlockType {
-    constructor(blockIdentifier, blockState) {
+    constructor(blockIdentifier, blockState, blockNBT = {}) {
         this.blockIdentifier = blockIdentifier;
         this.blockState = blockState;
+        this.blockNBT = blockNBT
     }
 }
 class Direction {
@@ -78,11 +84,11 @@ class Generator {
     }
 }
 
-class BuildInstruction{
-    constructor(type,data){
+class BuildInstruction {
+    constructor(type, data) {
         this.type = type;
         this.data = data;
     }
 }
 
-module.exports = { Coordinate, Position, BlockType, Block, Direction, Usage, Description, Generator,BuildInstruction };
+module.exports = { Coordinate, Position, BlockType, Block, Direction, Usage, Description, Generator, BuildInstruction };

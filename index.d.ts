@@ -82,8 +82,8 @@ export class Block {
 }
 
 export class BlockType {
-    constructor(blockIdentifier: string, blockState: any)
-    blockIdentifier: string; blockState: any;
+    constructor(blockIdentifier: string, blockState: any, blockNBT?: any)
+    blockIdentifier: string; blockState: any; blockNBT: any;
 }
 
 export class BuildInstruction {
@@ -115,8 +115,8 @@ export class Generator {
 }
 
 export class Position {
-    constructor(coordinate: Coordinate, tickingArea: any)
-    coordinate: Coordinate; tickingArea: any;
+    constructor(coordinate: Coordinate, dimension?: "overworld" | "nether" | "the end")
+    coordinate: Coordinate; dimension: string;
 }
 
 export class Usage {

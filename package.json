@@ -1,6 +1,6 @@
 {
   "name": "norma-core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "the core of NormaConstructor",
   "main": "index.js",
   "type": "commonjs",
